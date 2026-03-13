@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -18,7 +18,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/creates")
     public Order createOrder(@RequestBody Order order) {
         return orderService.createOrder(order);
     }

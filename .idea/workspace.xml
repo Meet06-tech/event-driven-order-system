@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7b09e60-b3db-47de-9681-60651709cf10" name="Changes" comment="" />
+    <list default="true" id="e7b09e60-b3db-47de-9681-60651709cf10" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/meet/order_service/config/RabbitMQConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/meet/order_service/config/RabbitMQConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/com/meet/order_service/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/com/meet/order_service/service/OrderService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

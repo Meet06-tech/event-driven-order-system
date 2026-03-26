@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String ORDER_QUEUE = "order.created.queue";
+    public static final String ORDER_QUEUE1 = "order.created.queue1";
 
     @Bean
     public MessageConverter messageConverter() {
@@ -19,6 +20,6 @@ public class RabbitMQConfig {
     @Bean
     public Queue orderQueue(){
         return new Queue(ORDER_QUEUE);
-
     }
+
 }

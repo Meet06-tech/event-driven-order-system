@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String ORDER_QUEUE = "order.created.queue";
+    public static final String OORDER_QUEUE1 = "order.created.queu1";
 
     @Bean
     public MessageConverter messageConverter() {

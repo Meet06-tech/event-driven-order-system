@@ -1,5 +1,7 @@
 package com.meet.order_service.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -41,5 +43,30 @@ public class RabbitMQConfig {
     public Queue notificationQueue(){
         return new Queue("notification.queue");
     }
+
+    @Bean
+    public Binding inventoryBinding(){
+        return BindingBuilder
+                .bind(inventoryQueue())
+                .to(exchange())
+                .with("inventory");
+    }
+
+    @Bean
+    public Binding paymentBinding(){
+        return BindingBuilder
+                .bind(paymentQueue())
+                .to(exchange())
+                .with("payment");
+    }
+
+    @Bean
+    public Binding notificationBinding(){
+        return BindingBuilder
+                .bind(notificationQueue())
+                .to(exchange())
+                .with("notification");
+    }
+
 
 }

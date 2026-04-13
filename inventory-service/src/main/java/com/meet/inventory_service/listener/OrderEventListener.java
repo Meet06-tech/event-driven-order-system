@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderEventListener {
 
-    @RabbitListener(queues = RabbitMQConfig.ORDER_QUEUE)
+    @RabbitListener(queues = "notification.queue")
     public void handleOrderCreated(OrderCreatedEvent event){
 
         System.out.println("Inventory Service Received Event");

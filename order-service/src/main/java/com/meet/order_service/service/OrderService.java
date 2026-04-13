@@ -34,7 +34,8 @@ public class OrderService {
 
 
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.ORDER_QUEUE,
+                "order.exchange",
+                "notification",
                 event
         );
         return savedOrder;

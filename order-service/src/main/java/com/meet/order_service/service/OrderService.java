@@ -35,7 +35,7 @@ public class OrderService {
 
         rabbitTemplate.convertAndSend(
                 "order.exchange",
-                "notification",
+                "",
                 event
         );
         return savedOrder;

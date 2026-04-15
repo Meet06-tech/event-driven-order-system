@@ -16,4 +16,5 @@ public class OrderEventListener {
         System.out.println("Product: " + event.getProductId());
         System.out.println("Quantity: " + event.getQuantity());
     }
+
 }

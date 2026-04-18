@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderEventListener {
 
-    @RabbitListener(queues = "notification.queue")
+    @RabbitListener(queues = "inventory.queue")
     public void handleOrderCreated(OrderCreatedEvent event){
 
         System.out.println("Inventory Service Received Event");

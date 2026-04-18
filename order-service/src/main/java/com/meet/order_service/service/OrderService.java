@@ -7,6 +7,8 @@ import com.meet.order_service.repository.OrderRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class OrderService {
 
@@ -23,12 +25,24 @@ public class OrderService {
     public Order createOrder(Order order){
 
         order.setStatus("Created");
+
+        //Fake pricin Right Now
+        double price = 100.0;
+        order.setPrice(price);
+
+        double total = price * order.getQuantity();
+        order.setTotalAmount(total);
+
+        order.setCreatedAt(LocalDateTime.now());
+
         Order savedOrder = orderRepository.save(order);
 
         OrderCreatedEvent event =  new OrderCreatedEvent(
                 savedOrder.getId(),
+                savedOrder.getUserId(),
                 savedOrder.getProductId(),
-                savedOrder.getQuantity()
+                savedOrder.getQuantity(),
+                savedOrder.getTotalAmount()
         );
 
 

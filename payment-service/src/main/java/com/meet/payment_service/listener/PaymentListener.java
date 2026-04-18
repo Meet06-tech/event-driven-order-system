@@ -13,6 +13,7 @@ public class PaymentListener {
         System.out.println("Payment Service Triggered");
         System.out.println("Order ID: " + event.getOrderId());
         System.out.println("Processing payment for quantity: " + event.getQuantity());
+        System.out.println("Processing payment: ₹" + event.getTotalAmount());
 
         // Simulated logic
         System.out.println("Payment Completed\n");

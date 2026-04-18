@@ -14,6 +14,11 @@ public class NotificationListener {
         System.out.println("Sending notification for Order: " + event.getOrderId());
         System.out.println("Product: " + event.getProductId());
 
+        System.out.println(
+                "Order " + event.getOrderId() +
+                        " confirmed. Amount: ₹" + event.getTotalAmount()
+        );
+
         // Simulated notification
         System.out.println(" Email/SMS Sent\n");
     }

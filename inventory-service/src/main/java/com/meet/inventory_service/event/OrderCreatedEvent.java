@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class OrderCreatedEvent {
 
     private String orderId;
+    private String userId;
     private String productId;
     private int quantity;
+    private double totalAmount;
 }

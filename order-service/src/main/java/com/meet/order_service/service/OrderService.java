@@ -48,8 +48,8 @@ public class OrderService {
 
 
         rabbitTemplate.convertAndSend(
-                "order.exchange",
-                "",
+                RabbitMQConfig.EXCHANGE,
+                RabbitMQConfig.ORDER_CREATED_KEY,
                 event
         );
         return savedOrder;

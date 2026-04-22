@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCreatedEvent {
+public class PaymentCompletedEvent {
 
     private String orderId;
-    private String userId;
-    private String productId;
-    private int quantity;
-    private double totalAmount;
 }

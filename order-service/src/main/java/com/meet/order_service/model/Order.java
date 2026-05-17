@@ -23,7 +23,7 @@ public class Order {
 
     private double totalAmount;
 
-    private String status;
+    private OrderStatus status;
 
     private LocalDateTime createdAt;
 }

@@ -1,7 +1,7 @@
 package com.meet.order_service.controller;
 
-
-import com.meet.order_service.model.Order;
+import com.meet.order_service.dto.CreateOrderRequest;
+import com.meet.order_service.dto.OrderResponse;
 import com.meet.order_service.service.OrderService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+    public OrderResponse createOrder(@RequestBody CreateOrderRequest request) {
+        return OrderResponse.from(orderService.createOrder(request));
     }
 }

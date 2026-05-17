@@ -1,25 +1,19 @@
 package com.meet.notification_service.listener;
 
-import com.meet.order_service.event.OrderCreatedEvent;
+import com.meet.event.PaymentCompletedEvent;
+import com.meet.notification_service.config.RabbitMQConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class NotificationListener {
 
-    @RabbitListener(queues = "notification.queue")
-    public void handleNotification(OrderCreatedEvent event){
+    private static final Logger log = LoggerFactory.getLogger(NotificationListener.class);
 
-        System.out.println("Notification Service Triggered");
-        System.out.println("Sending notification for Order: " + event.getOrderId());
-        System.out.println("Product: " + event.getProductId());
-
-        System.out.println(
-                "Order " + event.getOrderId() +
-                        " confirmed. Amount: ₹" + event.getTotalAmount()
-        );
-
-        // Simulated notification
-        System.out.println(" Email/SMS Sent\n");
+    @RabbitListener(queues = RabbitMQConfig.NOTIFICATION_QUEUE)
+    public void handleNotification(PaymentCompletedEvent event) {
+        log.info("Sending confirmation notification for paid order: orderId={}", event.getOrderId());
     }
 }

@@ -10,13 +10,20 @@ public class RabbitMQConfig {
 
     public static final String EXCHANGE = "order.exchange";
 
-    public static final String ORDER_CREATED_QUEUE = "payment.queue";
+    public static final String PAYMENT_QUEUE = "payment.request.queue";
     public static final String PAYMENT_COMPLETED_QUEUE = "payment.completed.queue";
+    public static final String PAYMENT_FAILED_QUEUE = "payment.failed.queue";
     public static final String INVENTORY_QUEUE = "inventory.queue";
+    public static final String INVENTORY_RESERVED_QUEUE = "inventory.reserved.queue";
+    public static final String INVENTORY_FAILED_QUEUE = "inventory.failed.queue";
+    public static final String NOTIFICATION_QUEUE = "notification.queue";
 
     public static final String ORDER_CREATED_KEY = "order.created";
     public static final String PAYMENT_COMPLETED_KEY = "payment.completed";
-    public static final String INVENTORY_KEY = "inventory";
+    public static final String PAYMENT_FAILED_KEY = "payment.failed";
+    public static final String INVENTORY_RESERVED_KEY = "inventory.reserved";
+    public static final String INVENTORY_FAILED_KEY = "inventory.failed";
+    public static final String NOTIFICATION_KEY = "notification";
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
@@ -31,8 +38,8 @@ public class RabbitMQConfig {
 
     // Queues
     @Bean
-    public Queue orderCreatedQueue() {
-        return new Queue(ORDER_CREATED_QUEUE);
+    public Queue paymentQueue() {
+        return new Queue(PAYMENT_QUEUE);
     }
 
     @Bean
@@ -41,16 +48,36 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue paymentFailedQueue() {
+        return new Queue(PAYMENT_FAILED_QUEUE);
+    }
+
+    @Bean
     public Queue inventoryQueue() {
         return new Queue(INVENTORY_QUEUE);
     }
 
+    @Bean
+    public Queue inventoryReservedQueue() {
+        return new Queue(INVENTORY_RESERVED_QUEUE);
+    }
+
+    @Bean
+    public Queue inventoryFailedQueue() {
+        return new Queue(INVENTORY_FAILED_QUEUE);
+    }
+
+    @Bean
+    public Queue notificationQueue() {
+        return new Queue(NOTIFICATION_QUEUE);
+    }
+
     // Bindings
     @Bean
-    public Binding orderCreatedBinding(Queue orderCreatedQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(orderCreatedQueue)
+    public Binding paymentBinding(Queue paymentQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(paymentQueue)
                 .to(exchange)
-                .with(ORDER_CREATED_KEY);
+                .with(INVENTORY_RESERVED_KEY);
     }
 
     @Bean
@@ -61,10 +88,38 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding inventoryBinding(Queue orderCreatedQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(inventoryQueue())
+    public Binding paymentFailedBinding(Queue paymentFailedQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(paymentFailedQueue)
                 .to(exchange)
-                .with(INVENTORY_KEY);
+                .with(PAYMENT_FAILED_KEY);
+    }
+
+    @Bean
+    public Binding inventoryBinding(Queue inventoryQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(inventoryQueue)
+                .to(exchange)
+                .with(ORDER_CREATED_KEY);
+    }
+
+    @Bean
+    public Binding inventoryReservedBinding(Queue inventoryReservedQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(inventoryReservedQueue)
+                .to(exchange)
+                .with(INVENTORY_RESERVED_KEY);
+    }
+
+    @Bean
+    public Binding inventoryFailedBinding(Queue inventoryFailedQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(inventoryFailedQueue)
+                .to(exchange)
+                .with(INVENTORY_FAILED_KEY);
+    }
+
+    @Bean
+    public Binding notificationBinding(Queue notificationQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(notificationQueue)
+                .to(exchange)
+                .with(ORDER_CREATED_KEY);
     }
 
 

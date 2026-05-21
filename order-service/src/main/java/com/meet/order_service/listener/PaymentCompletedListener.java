@@ -1,28 +1,41 @@
 package com.meet.order_service.listener;
 
-import com.meet.order_service.event.PaymentCompletedEvent;
-import com.meet.order_service.model.Order;
-import com.meet.order_service.repository.OrderRepository;
+import com.meet.event.PaymentCompletedEvent;
+import com.meet.event.PaymentFailedEvent;
+import com.meet.order_service.config.RabbitMQConfig;
+import com.meet.order_service.model.OrderStatus;
+import com.meet.order_service.service.OrderStatusService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentCompletedListener {
 
-    private final OrderRepository orderRepository;
+    private static final Logger log = LoggerFactory.getLogger(PaymentCompletedListener.class);
 
-    public PaymentCompletedListener(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    private final OrderStatusService orderStatusService;
+
+    public PaymentCompletedListener(OrderStatusService orderStatusService) {
+        this.orderStatusService = orderStatusService;
     }
 
-    @RabbitListener(queues = "payment.completed.queue")
+    @RabbitListener(queues = RabbitMQConfig.PAYMENT_COMPLETED_QUEUE)
     public void handlePaymentCompleted(PaymentCompletedEvent event){
 
-        Order order = orderRepository.findById(event.getOrderId()).orElseThrow();
+        orderStatusService.updateStatus(event.getOrderId(), OrderStatus.PAYMENT_COMPLETED);
+        orderStatusService.updateStatus(event.getOrderId(), OrderStatus.CONFIRMED);
 
-        order.setStatus("PAID");
-        orderRepository.save(order);
+        log.info("Order marked as PAYMENT_COMPLETED and CONFIRMED: orderId={}", event.getOrderId());
+    }
 
-        System.out.println("🟢 Order marked as PAID: " + event.getOrderId());
+    @RabbitListener(queues = RabbitMQConfig.PAYMENT_FAILED_QUEUE)
+    public void handlePaymentFailed(PaymentFailedEvent event) {
+        orderStatusService.updateStatus(event.getOrderId(), OrderStatus.PAYMENT_FAILED);
+        orderStatusService.updateStatus(event.getOrderId(), OrderStatus.CANCELLED);
+
+        log.warn("Order marked as PAYMENT_FAILED and CANCELLED: orderId={}, reason={}",
+                event.getOrderId(), event.getReason());
     }
 }

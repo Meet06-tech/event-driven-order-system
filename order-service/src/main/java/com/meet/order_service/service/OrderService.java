@@ -1,8 +1,10 @@
 package com.meet.order_service.service;
 
 import com.meet.order_service.config.RabbitMQConfig;
+import com.meet.order_service.dto.CreateOrderRequest;
 import com.meet.order_service.event.OrderCreatedEvent;
 import com.meet.order_service.model.Order;
+import com.meet.order_service.model.OrderStatus;
 import com.meet.order_service.repository.OrderRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,15 @@ public class OrderService {
 
 
 
-    public Order createOrder(Order order){
+    public Order createOrder(CreateOrderRequest request){
 
-        order.setStatus("Created");
+        Order order = new Order();
+        order.setUserId(request.getUserId());
+        order.setProductId(request.getProductId());
+        order.setQuantity(request.getQuantity());
+        order.setStatus(OrderStatus.CREATED);
 
-        //Fake pricin Right Now
+        // Fake pricing right now. Later this should come from a product service.
         double price = 100.0;
         order.setPrice(price);
 
